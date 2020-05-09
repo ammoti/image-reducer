@@ -7,10 +7,11 @@
 import { main, CompressType } from "../dist/index";
 describe("Image Reducer main test", () => {
   it("test main functionality", async () => {
-    const plugins :CompressType[] = [CompressType.mozjpeg]
+    const plugins: CompressType[] = [CompressType.mozjpeg];
     const response = await main(
       "tests-dist/assets/cat.jpg",
-      "tests-dist/assets/singlefile",plugins
+      "tests-dist/assets/singlefile",
+      plugins
     ).then((value) => {
       return value;
     });
