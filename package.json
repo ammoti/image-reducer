@@ -36,7 +36,7 @@
     "url": "git+https://github.com/ammoti/image-reducer"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=10"
   },
   "author": "ammoti <vahap.yigit@gmail.com>",
   "license": "MIT",
