@@ -9,8 +9,8 @@ describe("Image Reducer main test", () => {
   it("test main functionality", async () => {
     const plugins: CompressType[] = [CompressType.mozjpeg];
     const response = await main(
-      "tests-dist/assets/cat.jpg",
-      "tests-dist/assets/singlefile",
+      "tests-dist/assets/",
+      "tests-dist/assets/vahap",
       plugins
     ).then((value) => {
       return value;

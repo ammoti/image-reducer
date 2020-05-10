@@ -12,14 +12,14 @@ export class ImageReducer {
    * @param {string} destination is a which directory in compressed images
    * @return {imagemin.Result[]} is a return value
    */
-  async mozjpegCompress(input: string[], destination: string) {
+  async mozjpegCompress(input: string, destination: string) {
     const options: imagemin.Options = {
       plugins: [imageminMozjpeg({ quality: 65 })],
       destination: destination,
     };
     if (input.length === 0) throw new Error("Input directory not exists");
-
-    return await imagemin(input, options).then((response) => {
+    const inputDir: string[] = [input];
+    return await imagemin(inputDir, options).then((response) => {
       return response;
     });
   }

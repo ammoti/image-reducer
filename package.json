@@ -63,10 +63,12 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@types/glob": "^7.1.1",
     "@types/imagemin": "^7.0.0",
     "@types/imagemin-jpegtran": "^5.0.0",
     "@types/imagemin-mozjpeg": "^8.0.0",
     "@types/imagemin-pngquant": "^7.0.0",
+    "glob": "^7.1.6",
     "imagemin": "^7.0.1",
     "imagemin-jpegtran": "^6.0.0",
     "imagemin-mozjpeg": "^8.0.0",
