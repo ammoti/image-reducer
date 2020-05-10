@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { ImageReducer } from "./imagemin-reducer";
 import glob from "glob";
+import { ImageResponse } from "./models/imagemin.response";
 
 /**
  *
@@ -45,7 +46,7 @@ export async function main(
         : (input as string[]);
     const reducer = new ImageReducer();
     const re = /(?:\.([^.]+))?$/;
-    let fileList: string[] = ["test/"];
+    let fileList: string[] = [];
     for (let i = 0; i < inputDir.length; i++) {
       const element = inputDir[i].toString();
       const fileExtension = re.exec(element)[0];
@@ -63,6 +64,7 @@ export async function main(
         });
       }
     }
+    const responseList: ImageResponse[] = [];
     for (let f = 0; f < fileList.length; f++) {
       const file = fileList[f];
       const fileExtension = re.exec(file)[0];
@@ -73,13 +75,19 @@ export async function main(
               if (Number(i) === CompressType.mozjpeg) {
                 console.log("Gelen dosya", file);
                 const mozjpeg = reducer.mozjpegCompress(file, destination);
-                return mozjpeg;
+                let response: ImageResponse;
+                (await mozjpeg).forEach((value)=>{response.data = value.destinationPath})
+                responseList.push(response);
               }
               if (Number(i) === CompressType.jpegtran) {
                 const jpegtran = reducer.jpegtranCompress(
                   inputDir,
                   destination
                 );
+                // TODO: return ImageResponse will added it 
+                let response: ImageResponse;
+                (await jpegtran).forEach((value)=>{response.data = value.destinationPath})
+                responseList.push(response);
                 return jpegtran;
               }
               break;
