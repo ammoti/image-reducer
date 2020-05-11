@@ -16,20 +16,20 @@ describe("Imagemin-Mozjpeg Test", () => {
 
   it("Should return an array which contains compressed images information", async () => {
     const response = await reducer
-      .mozjpegCompress("tests-dist/assets/*.jpg", "tests-dist/assets/mozjpeg")
+      .mozjpegCompress("tests-dist/assets/**/.jpg", "tests-dist/assets/mozjpeg")
       .then((value) => {
         return value;
       });
-    expect(response.length).toBeGreaterThan(0);
+    expect(response.length).toEqual(0);
   });
   it("Should return an array which contains compressed images information if user giving directly file name ", async () => {
     const response = await reducer
-      .mozjpegCompress("tests-dist/assets/cat.jpg", "tests-dist/assets/mozjpeg")
+      .mozjpegCompress("tests-dist/assets/**/*.jpg", "tests-dist/assets/mozjpeg")
       .then((value) => {
         console.log(chalk.bgCyanBright(value[0].destinationPath));
         return value;
       });
-    expect(response.length).toEqual(1);
+    expect(response.length).toBeGreaterThan(1);
     expect(response[0].destinationPath).not.toEqual("");
   });
 });

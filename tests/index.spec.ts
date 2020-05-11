@@ -7,14 +7,17 @@
 import { main, CompressType } from "../dist/index";
 describe("Image Reducer main test", () => {
   it("test main functionality", async () => {
-    const plugins: CompressType[] = [CompressType.mozjpeg];
+    const plugins: CompressType[] = [
+      CompressType.mozjpeg,
+      CompressType.pngquant,
+    ];
     const response = await main(
       "tests-dist/assets/",
-      "tests-dist/assets/vahap",
+      "tests-dist/compressed/vahap",
       plugins
     ).then((value) => {
       return value;
     });
-    console.log(response);
+    expect(response).toHaveLength(3);
   });
 });

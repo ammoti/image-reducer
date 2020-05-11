@@ -10,14 +10,14 @@ describe("Imagemin-Pngquant Test", () => {
 
   it("Should return error if inputDir not exist or not reachable", async () => {
     await expect(
-      reducer.pngquantCompress([], "tests-dist/assets/uploads")
+      reducer.pngquantCompress("", "tests-dist/assets/uploads")
     ).rejects.toEqual(Error("Input directory not exists"));
   });
 
   it("Should return an array which contains compressed images information", async () => {
     const response = await reducer
       .pngquantCompress(
-        ["tests-dist/assets/*.jpg"],
+        "tests-dist/assets/**/*.png",
         "tests-dist/assets/uploads"
       )
       .then((value) => {
@@ -28,14 +28,13 @@ describe("Imagemin-Pngquant Test", () => {
   it("Should return an array which contains compressed images information if user giving directly file name ", async () => {
     const response = await reducer
       .pngquantCompress(
-        ["tests-dist/assets/cat.jpg"],
+        "tests-dist/assets/**/*.png",
         "tests-dist/assets/pngquant"
       )
       .then((value) => {
         console.log(chalk.bgRedBright(value[0].destinationPath));
         return value;
       });
-    expect(response.length).toEqual(1);
     expect(response[0].destinationPath).not.toEqual("");
   });
 });

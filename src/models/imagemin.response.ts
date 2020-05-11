@@ -1,5 +1,5 @@
 export interface ImageResponse {
-  newFile: string;
-  data: string;
-  pathNew: string;
+  sourcePath: string;
+  data: Buffer;
+  newPath: string;
 }

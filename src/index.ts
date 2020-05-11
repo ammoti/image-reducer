@@ -6,12 +6,11 @@ import { ImageResponse } from "./models/imagemin.response";
 /**
  *
  * @param {string}element File
- * @return {string[]} fileList TODO:Düzeltilecek
  */
 async function getFileList(element: string) {
   const fileList: string[] = [];
   return new Promise((resolve, rejects) => {
-    glob(element + "**/*.jpg", (error, matches) => {
+    glob(element + "files/**/*+(.jpg|.png)", (error, matches) => {
       if (error) {
         console.log("Hata", error.message);
       }
@@ -22,8 +21,6 @@ async function getFileList(element: string) {
       resolve(fileList);
     });
   });
-  console.log("filelist", fileList);
-  return fileList;
 }
 
 /**
@@ -57,8 +54,6 @@ export async function main(
       ) {
         fileList.push(element);
       } else {
-        // eslint-disable-next-line no-unused-vars
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         fileList = await getFileList(element).then((value) => {
           return value as string[];
         });
@@ -68,44 +63,51 @@ export async function main(
     for (let f = 0; f < fileList.length; f++) {
       const file = fileList[f];
       const fileExtension = re.exec(file)[0];
-      for (const i in compressMethod) {
-        if (!isNaN(Number(i))) {
-          switch (fileExtension) {
-            case ".jpg" || ".jpeg":
-              if (Number(i) === CompressType.mozjpeg) {
-                console.log("Gelen dosya", file);
-                const mozjpeg = reducer.mozjpegCompress(file, destination);
-                let response: ImageResponse;
-                (await mozjpeg).forEach((value)=>{response.data = value.destinationPath})
-                responseList.push(response);
-              }
-              if (Number(i) === CompressType.jpegtran) {
-                const jpegtran = reducer.jpegtranCompress(
-                  inputDir,
-                  destination
-                );
-                // TODO: return ImageResponse will added it 
-                let response: ImageResponse;
-                (await jpegtran).forEach((value)=>{response.data = value.destinationPath})
-                responseList.push(response);
-                return jpegtran;
-              }
-              break;
-            case ".png":
-              if (Number(i) === CompressType.pngquant) {
-                const pngquant = reducer.pngquantCompress(
-                  inputDir,
-                  destination
-                );
-                return pngquant;
-              }
-              break;
+      switch (fileExtension) {
+        // TODO : Buradan devam et bir den fazla defa döngüye giriyor ana döngüden çıkması
+        case ".jpg":
+          if (compressMethod.indexOf(CompressType.mozjpeg) !== -1) {
+            const mozjpeg = await reducer.mozjpegCompress(file, destination);
+            mozjpeg.forEach((value) => {
+              const response: ImageResponse = {
+                data: value.data,
+                newPath: value.destinationPath,
+                sourcePath: value.sourcePath,
+              };
+              responseList.push(response);
+            });
+          } else if (compressMethod.indexOf(CompressType.jpegtran) !== -1) {
+            const jpegtran = await reducer.jpegtranCompress(file, destination);
+            // TODO: return ImageResponse will added it
+            jpegtran.forEach((value) => {
+              const response: ImageResponse = {
+                data: value.data,
+                newPath: value.destinationPath,
+                sourcePath: value.sourcePath,
+              };
+              responseList.push(response);
+            });
           }
-        }
+          break;
+        case ".png":
+          if (compressMethod.indexOf(CompressType.pngquant) !== -1) {
+            const pngquant = await reducer.pngquantCompress(file, destination);
+            pngquant.forEach((value) => {
+              const response: ImageResponse = {
+                data: value.data,
+                newPath: value.destinationPath,
+                sourcePath: value.sourcePath,
+              };
+              responseList.push(response);
+            });
+          }
+          break;
       }
     }
+
+    return responseList;
   } catch (error) {
-    console.log("Hatta", error);
+    console.log("Hata", error);
   }
 }
 export enum CompressType {

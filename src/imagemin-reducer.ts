@@ -29,14 +29,14 @@ export class ImageReducer {
    * @param {string} destination is a which directory in compressed images
    * @return {Promise<imagemin.Result[]>} is a return value
    */
-  async pngquantCompress(input: string[], destination: string) {
+  async pngquantCompress(input: string, destination: string) {
     const options: imagemin.Options = {
       plugins: [imageminPngquant({ quality: [0.2, 0.5] })],
       destination: destination,
     };
     if (input.length === 0) throw new Error("Input directory not exists");
 
-    return await imagemin(input, options).then((response) => {
+    return await imagemin([input], options).then((response) => {
       return response;
     });
   }
@@ -45,14 +45,14 @@ export class ImageReducer {
    * @param {string[]} input input directory for compress images using jpegtran algorithm
    * @param {string} destination destination file that will compresed
    */
-  async jpegtranCompress(input: string[], destination: string) {
+  async jpegtranCompress(input: string, destination: string) {
     const options: imagemin.Options = {
       plugins: [imageminJpegtran({})],
       destination: destination,
     };
     if (input.length === 0) throw new Error("Input directory not exists");
 
-    return await imagemin(input, options).then((response) => {
+    return await imagemin([input], options).then((response) => {
       return response;
     });
   }

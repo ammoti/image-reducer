@@ -11,7 +11,7 @@ describe("Imagemin-Jpegtran Test", () => {
   it("Should return an array which contains compressed images information", async () => {
     const response = await reducer
       .jpegtranCompress(
-        ["tests-dist/assets/cat.jpg"],
+        "tests-dist/assets/**/*.jpg",
         "tests-dist/assets/jpegtran"
       )
       .then((value) => {
