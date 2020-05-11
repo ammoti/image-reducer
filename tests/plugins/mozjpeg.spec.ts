@@ -29,7 +29,7 @@ describe("Imagemin-Mozjpeg Test", () => {
         console.log(chalk.bgCyanBright(value[0].destinationPath));
         return value;
       });
-    expect(response.length).toBeGreaterThan(1);
+    expect(response.length).toBeGreaterThan(0);
     expect(response[0].destinationPath).not.toEqual("");
   });
 });
