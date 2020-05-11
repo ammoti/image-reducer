@@ -28,7 +28,7 @@ describe("Imagemin-Pngquant Test", () => {
   it("Should return an array which contains compressed images information if user giving directly file name ", async () => {
     const response = await reducer
       .pngquantCompress(
-        "tests-dist/assets/**/*.png",
+        "tests-dist/assets/files/**/*.png",
         "tests-dist/assets/pngquant"
       )
       .then((value) => {
