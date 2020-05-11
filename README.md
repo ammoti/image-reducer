@@ -27,6 +27,8 @@ Type definitions are bundled with this package.
 
 Main functions taking three parameters, First one input you can give a string array or directly file path does not matter. second is destination after compression where files will be stored, and third one is the algorithm array which is compression algorithm. And return a Promise.
 
+Currently pngquant using quality: [0.2, 0.5] and mozjpeg using 65 I will add options parameter in the future commits.
+
 ```sh
 main(input: string | string[], destination: string, compressMethod: CompressType[]): Promise<CompressReport[]>;
 ```
