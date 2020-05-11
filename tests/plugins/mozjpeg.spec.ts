@@ -16,7 +16,7 @@ describe("Imagemin-Mozjpeg Test", () => {
 
   it("Should return an array which contains compressed images information", async () => {
     const response = await reducer
-      .mozjpegCompress("tests-dist/assets/**/.jpg", "tests-dist/assets/mozjpeg")
+      .mozjpegCompress("tests-dist/assets/files/**/.jpg", "tests-dist/assets/mozjpeg")
       .then((value) => {
         return value;
       });
@@ -24,7 +24,7 @@ describe("Imagemin-Mozjpeg Test", () => {
   });
   it("Should return an array which contains compressed images information if user giving directly file name ", async () => {
     const response = await reducer
-      .mozjpegCompress("tests-dist/assets/**/*.jpg", "tests-dist/assets/mozjpeg")
+      .mozjpegCompress("tests-dist/assets/files/**/*.jpg", "tests-dist/assets/mozjpeg")
       .then((value) => {
         console.log(chalk.bgCyanBright(value[0].destinationPath));
         return value;

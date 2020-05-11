@@ -11,13 +11,13 @@ describe("Imagemin-Jpegtran Test", () => {
   it("Should return an array which contains compressed images information", async () => {
     const response = await reducer
       .jpegtranCompress(
-        "tests-dist/assets/**/*.jpg",
+        "tests-dist/assets/files/**/*.jpg",
         "tests-dist/assets/jpegtran"
       )
       .then((value) => {
         console.log(chalk.bgCyanBright(value[0].destinationPath));
         return value;
       });
-    expect(response.length).toEqual(1);
+    expect(response.length).toBeGreaterThanOrEqual(1);
   });
 });
