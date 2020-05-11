@@ -13,7 +13,7 @@ describe("Image Reducer main test", () => {
     ];
     const response = await main(
       "tests-dist/assets/",
-      "tests-dist/compressed/",
+      "tests-dist/compressed/vahap",
       plugins
     ).then((value) => {
       return value;

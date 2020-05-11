@@ -1,22 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { ImageReducer } from "./imagemin-reducer";
 import glob from "glob";
-import { CompressReport } from "./models/report.response";
+import { ImageResponse } from "./models/imagemin.response";
 
 /**
  *
- * @param {string}filePath will return all .jpg and .png files in directory and sub directory
+ * @param {string}element File
  */
-async function getFileList(filePath: string) {
+async function getFileList(element: string) {
   const fileList: string[] = [];
   return new Promise((resolve, rejects) => {
-    if (!filePath.endsWith("/")) filePath.concat("/");
-    glob(filePath + "**/*+(.jpg|.png)", (error, matches) => {
+    glob(element + "files/**/*+(.jpg|.png)", (error, matches) => {
       if (error) {
-        rejects(new Error("Error message : " + error));
+        console.log("Hata", error.message);
       }
       for (let f = 0; f < matches.length; f++) {
-        const e = matches[f];
-        fileList.push(e);
+        const element = matches[f];
+        fileList.push(element);
       }
       resolve(fileList);
     });
@@ -28,7 +28,7 @@ async function getFileList(filePath: string) {
  * @param {string} input is a value for input
  * @param {string} destination is a destionation part
  * @param {CompressType} compressMethod is a enum that using compress method
- * @return {CompressReport[]} is an array that you can see data(buffer), source and new paths
+ * @return {Promise<imagemin.Result[]>}value should something
  */
 export async function main(
   input: string | string[],
@@ -59,16 +59,17 @@ export async function main(
         });
       }
     }
-    const responseList: CompressReport[] = [];
+    const responseList: ImageResponse[] = [];
     for (let f = 0; f < fileList.length; f++) {
       const file = fileList[f];
       const fileExtension = re.exec(file)[0];
       switch (fileExtension) {
+        // TODO : Buradan devam et bir den fazla defa döngüye giriyor ana döngüden çıkması
         case ".jpg":
           if (compressMethod.indexOf(CompressType.mozjpeg) !== -1) {
             const mozjpeg = await reducer.mozjpegCompress(file, destination);
             mozjpeg.forEach((value) => {
-              const response: CompressReport = {
+              const response: ImageResponse = {
                 data: value.data,
                 newPath: value.destinationPath,
                 sourcePath: value.sourcePath,
@@ -79,7 +80,7 @@ export async function main(
             const jpegtran = await reducer.jpegtranCompress(file, destination);
             // TODO: return ImageResponse will added it
             jpegtran.forEach((value) => {
-              const response: CompressReport = {
+              const response: ImageResponse = {
                 data: value.data,
                 newPath: value.destinationPath,
                 sourcePath: value.sourcePath,
@@ -92,7 +93,7 @@ export async function main(
           if (compressMethod.indexOf(CompressType.pngquant) !== -1) {
             const pngquant = await reducer.pngquantCompress(file, destination);
             pngquant.forEach((value) => {
-              const response: CompressReport = {
+              const response: ImageResponse = {
                 data: value.data,
                 newPath: value.destinationPath,
                 sourcePath: value.sourcePath,
@@ -103,9 +104,10 @@ export async function main(
           break;
       }
     }
+
     return responseList;
-  } catch (err) {
-    throw new Error(err);
+  } catch (error) {
+    console.log("Hata", error);
   }
 }
 export enum CompressType {
