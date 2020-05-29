@@ -1,7 +1,7 @@
 ![alt text](https://i.ibb.co/ft9Sxh7/logo.jpg "Vahap Yiğit")
 # image-reducer
 
-image-reducer just a another image compression package powered by [imagemin](https://www.npmjs.com/package/imagemin). It's goal is that bring all imagemin plugin use single package. At this moment its allow just third plugin [mozjpeg, jpegtrani pngquant] I will add more plugin in the future.
+image-reducer just a another image compression package empowered [imagemin](https://www.npmjs.com/package/imagemin). It's goal is that bring all imagemin plugin use single package. At this moment its allow just third plugin [mozjpeg, jpegtrani pngquant] I will add more plugin in the future.
 
 ![](https://github.com/ammoti/np/workflows/Build/badge.svg) [![](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
